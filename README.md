@@ -4,8 +4,8 @@
 В скопированном файле необходимо указать:
 + параметры подключения к базе данных
 + параметры подключения к smtp серверу почты
-+ указать данные администратора в полях ADMIN_EMAIL и ADMIN_PASSWORD
-Точкой входа для приложения служит файл public/index.php
++ указать данные администратора в полях ADMIN_EMAIL и ADMIN_PASSWORD <br/>
+#### Точкой входа для приложения служит файл public/index.php
 ```bash
 $ git clone https://github.com/kulmenevaa/usernotes
 $ cd usernotes
@@ -25,4 +25,4 @@ $ php artisan migrate --seed
 $ php artisan passport:install
 ```
 
-Ссылка на документацию API: /api/documentation
+#### Ссылка на документацию API: /api/documentation
