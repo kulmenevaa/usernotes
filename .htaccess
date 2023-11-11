@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+
+# BACKOFFICE API
+RewriteCond %{HTTP:Host} ^(?:api\.mysite\.com)?$
+RewriteRule ^(.*) public/$1 [NC,L,NS]
+
+
+# FRONTEND API
+RewriteCond %{HTTP:Host} ^(?:src\.mysite\.com)?$
+RewriteRule ^(.*) public/$1 [NC,L,NS]
+
+# ANYOTHER TO DIST
+RewriteCond %{REQUEST_URI} !^/dist
+RewriteRule ^(.*)$ /dist/$1 [L]
+</IfModule>

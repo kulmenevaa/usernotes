@@ -1,0 +1,526 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My Doc API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/": {},
+        "/api/user/login": {
+            "post": {
+                "tags": [
+                    "Пользователь"
+                ],
+                "summary": "Авторизация пользователя в системе",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "email": {
+                                                "type": "string",
+                                                "example": "test@test.ru"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": 12345678
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Вы успешно авторизованы!"
+                                                },
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "Bearer токен пользователя"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/profile": {
+            "get": {
+                "tags": [
+                    "Пользователь"
+                ],
+                "summary": "Получить авторизованного пользователя по токену",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "surname": {
+                                                        "type": "string",
+                                                        "example": "Иванов"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Иван"
+                                                    },
+                                                    "patronymic": {
+                                                        "type": "string",
+                                                        "example": "Иванович"
+                                                    },
+                                                    "fio": {
+                                                        "type": "string",
+                                                        "example": "Иванов Иван Иванович"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "test@test.ru"
+                                                    },
+                                                    "isAdmin": {
+                                                        "type": "boolean",
+                                                        "example": "Нет"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/notes": {
+            "get": {
+                "tags": [
+                    "Заметки"
+                ],
+                "summary": "Список заметок пользователя",
+                "description": "Администратору отображается список всех заметок, а остальным пользователям - личные заметки",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Заметка №1"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Описание заметки №1"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Заметки"
+                ],
+                "summary": "Создание заметки",
+                "description": "При создании заметки пользователю с ролью администратора приходит письмо с содержимым созданной заметки",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Заметка №1"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Описание заметки №1"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Заметка добавлена"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 2,
+                                                "title": "Заметка №2",
+                                                "description": "Описание заметки №2"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/notes/{note}": {
+            "delete": {
+                "tags": [
+                    "Заметки"
+                ],
+                "summary": "Удаление заметки",
+                "description": "Если пользователь является администратором, то заметка удаляется из системы. Для остальных - заметка удаляется из списка пользователя, но администратор увидит её в системе",
+                "parameters": [
+                    {
+                        "name": "note",
+                        "in": "path",
+                        "description": "ID заметки",
+                        "required": true,
+                        "example": 2
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "message": {
+                                                "type": "sting",
+                                                "example": "Заметка удалена"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "sting",
+                                            "example": "Заметка удалена"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Заметки"
+                ],
+                "summary": "Обновление заметки",
+                "parameters": [
+                    {
+                        "name": "note",
+                        "in": "path",
+                        "description": "ID заметки",
+                        "required": true,
+                        "example": 2
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Заметка №2"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Описание заметки №2"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Заметка изменена"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 2,
+                                                "title": "Заметка №2 - корректировка",
+                                                "description": "Описание заметки №2"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Пользователь"
+                ],
+                "summary": "Список всех пользователей",
+                "description": "Администратору отображается список всех пользователей, а остальным пользователям - все, кроме администратора",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "surname": {
+                                                        "type": "string",
+                                                        "example": "Иванов"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Иван"
+                                                    },
+                                                    "patronymic": {
+                                                        "type": "string",
+                                                        "example": "Иванович"
+                                                    },
+                                                    "fio": {
+                                                        "type": "string",
+                                                        "example": "Иванов Иван Иванович"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "test@test.ru"
+                                                    },
+                                                    "isAdmin": {
+                                                        "type": "boolean",
+                                                        "example": "Нет"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/toggle_notice": {
+            "post": {
+                "tags": [
+                    "Пользователь"
+                ],
+                "summary": "Переключение статуса получения уведомления о создании заметок",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Статус получение уведомлений переключен"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user_note/share": {
+            "post": {
+                "tags": [
+                    "Заметки"
+                ],
+                "summary": "Поделиться заметкой с другим пользователем",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "noteID": {
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "usersShare": {
+                                                "type": "string",
+                                                "example": "1,2,3"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Вы поделились заметкой"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
