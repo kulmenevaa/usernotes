@@ -25,4 +25,9 @@ $ php artisan migrate --seed
 $ php artisan passport:install
 ```
 
+#### Запуск приложения
+```bash
+$ php artisan serve
+```
+
 #### Ссылка на документацию API: /api/documentation
